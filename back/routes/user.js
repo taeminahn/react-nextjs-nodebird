@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    if(req.user){
+    if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
         where: {id: req.user.id},
         attributes: {
@@ -34,7 +34,7 @@ router.get('/', async (req, res, next) => {
         ]
       })
       res.status(200).json(fullUserWithoutPassword);
-    }else{
+    } else {
       res.status(200).json(null);
     }
   } catch (error) {
@@ -116,6 +116,51 @@ router.post('/logout', isLoggedIn, (req, res, next) => {
     req.session.destroy();
     res.send('ok');
   });
+});
+
+router.patch('/nickname', isLoggedIn, async (req, res, next) => {
+  try {
+    await User.update(
+      {
+        nickname: req.body.nickname,
+      },
+      {
+        where: {id: req.user.id},
+      }
+    )
+    res.status(200).json({ nickname: req.body.nickname });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => { // PATCH /user/1/follow
+  try {
+    const user = await User.findOne({ where: { UserId: req.params.userId } });
+    if(!user){
+      res.status(403).send('존재하지 않는 사용자입니다.');
+    }
+    await user.addFollowers(req.user.id);
+    res.status(200).json({ UserId: parseInt(req.params.userId) });
+  } catch(error){
+    console.error(error);
+    next(error);
+  }
+});
+
+router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => { // DELETE /user/1/follow
+  try {
+    const user = await User.findOne({ where: { UserId: req.params.userId } });
+    if(!user){
+      res.status(403).send('존재하지 않는 사용자입니다.');
+    }
+    await user.removeFollowers(req.user.id);
+    res.status(200).json({ UserId: parseInt(req.params.userId) });
+  } catch(error){
+    console.error(error);
+    next(error);
+  }
 });
 
 module.exports = router;

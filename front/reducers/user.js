@@ -80,35 +80,39 @@ export const logoutRequestAction = () => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type){
-    case LOAD_MY_INFO_REQUEST:
+    case LOAD_MY_INFO_REQUEST: {
       return {
         ...state,
         loadMyInfoLoading: true,
         loadMyInfoDone: false,
         loadMyInfoError: null,
       };
-    case LOAD_MY_INFO_SUCCESS:
+    }
+    case LOAD_MY_INFO_SUCCESS: {
       return {
         ...state,
         loadMyInfoLoading: false,
         loadMyInfoDone: true,
         me: action.data,
       };
-    case LOAD_MY_INFO_FAILURE:
+    }
+    case LOAD_MY_INFO_FAILURE: {
       return {
         ...state,
         loadMyInfoLoading: false,
         loadMyInfoError: action.error,
       };
-    case FOLLOW_REQUEST:
+    }
+    case FOLLOW_REQUEST: {
       return {
         ...state,
         followLoading: true,
         followDone: false,
         followError: null,
       };
-    case FOLLOW_SUCCESS:
-      const followingsList = state.me.Followings.concat({id : action.data});
+    }
+    case FOLLOW_SUCCESS: {
+      const followingsList = state.me.Followings.concat({id: action.data.userId});
       const followMe = {...state.me};
       followMe.Followings = [...followingsList];
       return {
@@ -117,20 +121,23 @@ const reducer = (state = initialState, action) => {
         followDone: true,
         me: followMe,
       };
-    case FOLLOW_FAILURE:
+    }
+    case FOLLOW_FAILURE: {
       return {
         ...state,
         followLoading: false,
         followError: action.error,
       };
-    case UNFOLLOW_REQUEST:
+    }
+    case UNFOLLOW_REQUEST: {
       return {
         ...state,
         unfollowLoading: true,
         unfollowDone: false,
         unfollowError: null,
       };
-    case UNFOLLOW_SUCCESS:
+    }
+    case UNFOLLOW_SUCCESS: {
       console.log(action.data);
       const unfollowMe = {...state.me};
       const unfollowList = state.me.Followings.filter((v) => v.id !== action.data);
@@ -144,91 +151,108 @@ const reducer = (state = initialState, action) => {
         me: unfollowMe,
         // me: dummyUser(action.data),
       };
-    case UNFOLLOW_FAILURE:
+    }
+    case UNFOLLOW_FAILURE: {
       return {
         ...state,
         unfollowLoading: false,
         unfollowError: action.error,
       };
-    case LOG_IN_REQUEST:
+    }
+    case LOG_IN_REQUEST: {
       return {
         ...state,
         logInLoading: true,
         logInDone: false,
         logInError: null,
       };
-    case LOG_IN_SUCCESS:
+    }
+    case LOG_IN_SUCCESS: {
       return {
         ...state,
         logInLoading: false,
         logInDone: true,
         me: action.data,
       };
-    case LOG_IN_FAILURE:
+    }
+    case LOG_IN_FAILURE: {
       return {
         ...state,
         logInLoading: false,
         logInError: action.error,
       };
-    case LOG_OUT_REQUEST:
+    }
+    case LOG_OUT_REQUEST: {
       return {
         ...state,
         logOutLoading: true,
         logOutDone: false,
         logOutError: null,
       };
-    case LOG_OUT_SUCCESS:
+    }
+    case LOG_OUT_SUCCESS: {
       return {
         ...state,
         logOutLoading: false,
         logOutDone: true,
         me: null,
       };
-    case LOG_OUT_FAILURE:
+    }
+    case LOG_OUT_FAILURE: {
       return {
         ...state,
         logOutLoading: false,
         logOutError: action.error,
       };
-    case SIGN_UP_REQUEST:
+    }
+    case SIGN_UP_REQUEST: {
       return {
         ...state,
         signUpLoading: true,
         signUpDone: false,
         signUpError: null,
       };
-    case SIGN_UP_SUCCESS:
+    }
+    case SIGN_UP_SUCCESS: {
       return {
         ...state,
         signUpLoading: false,
         signUpDone: true,
       };
-    case SIGN_UP_FAILURE:
+    }
+    case SIGN_UP_FAILURE: {
       return {
         ...state,
         signUpLoading: false,
         signUpError: action.error,
       };
-    case CHANGE_NICKNAME_REQUEST:
+    }
+    case CHANGE_NICKNAME_REQUEST: {
       return {
         ...state,
         changeNicknameLoading: true,
         changeNicknameDone: false,
         changeNicknameError: null,
       };
-    case CHANGE_NICKNAME_SUCCESS:
+    }
+    case CHANGE_NICKNAME_SUCCESS: {
+      const me = state.me;
+      me.nickname = action.data.nickname;
       return {
         ...state,
         changeNicknameLoading: false,
         changeNicknameDone: true,
+        me,
       };
-    case CHANGE_NICKNAME_FAILURE:
+    }
+    case CHANGE_NICKNAME_FAILURE: {
       return {
         ...state,
         changeNicknameLoading: false,
         changeNicknameError: action.error,
       };
-    case ADD_POST_TO_ME:
+    }
+    case ADD_POST_TO_ME: {
       return {
         ...state,
         me: {
@@ -236,7 +260,8 @@ const reducer = (state = initialState, action) => {
           Posts: [{id: action.data}, ...state.me.Posts],
         }
       };
-    case REMOVE_POST_OF_ME:
+    }
+    case REMOVE_POST_OF_ME: {
       return {
         ...state,
         me: {
@@ -244,6 +269,7 @@ const reducer = (state = initialState, action) => {
           Posts: state.me.Posts.filter((v) => v.id !== action.data),
         }
       };
+    }
     default:
       return state;
   }
