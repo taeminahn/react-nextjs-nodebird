@@ -1,13 +1,13 @@
-import styled, { createGlobalStyle } from 'styled-components';
-import { CloseOutlined } from '@ant-design/icons';
+import styled, {createGlobalStyle} from 'styled-components';
+import {CloseOutlined} from '@ant-design/icons';
 
 export const Global = createGlobalStyle`
   .slick-slide {
     display: inline-block;
-  }
+ }
   .ant-card-cover {
     transform: none !important;
-  }
+ }
 `;
 
 export const Overlay = styled.div`
@@ -31,7 +31,7 @@ export const Header = styled.header`
     font-size: 17px;
     color: #333;
     line-height: 44px;
-  }
+ }
 `;
 
 export const SlickWrapper = styled.div`
@@ -61,7 +61,7 @@ export const Indicator = styled.div`
     text-align: center;
     color: white;
     font-size: 15px;
-  }
+ }
 `;
 
 export const ImgWrapper = styled.div`
@@ -71,5 +71,5 @@ export const ImgWrapper = styled.div`
   & img {
     margin: 0 auto;
     max-height: 750px;
-  }
+ }
 `;

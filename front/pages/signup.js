@@ -1,36 +1,38 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import AppLayout from "../components/AppLayout";
-import Head from "next/head";
-import styled from "styled-components";
+import Head from 'next/head';
+import styled from 'styled-components';
 import Router from 'next/router';
-import {Button, Checkbox, Form, Input} from "antd";
-import useInput from "../hooks/useInput";
-import {SIGN_UP_REQUEST} from "../reducers/user";
-import {useDispatch, useSelector} from "react-redux";
+import {Button, Checkbox, Form, Input} from 'antd';
+import axios from 'axios';
+import {END} from 'redux-saga';
+import {useDispatch, useSelector} from 'react-redux';
+import AppLayout from '../components/AppLayout';
+import useInput from '../hooks/useInput';
+import {LOAD_MY_INFO_REQUEST, SIGN_UP_REQUEST} from '../reducers/user';
+import wrapper from '../store/configureStore';
 
 const ErrorMessage = styled.div`
   color: red;
 `;
 
 const Signup = () => {
-
   const dispatch = useDispatch();
-  const { signUpLoading, signUpDone, signUpError, me } = useSelector((state) => state.user);
+  const {signUpLoading, signUpDone, signUpError, me} = useSelector((state) => state.user);
 
   useEffect(() => {
-    if(me && me.id){
+    if (me && me.id) {
       Router.replace('/');
     }
   }, [me && me.id]);
 
   useEffect(() => {
-    if(signUpDone){
+    if (signUpDone) {
       Router.replace('/');
     }
   }, [signUpDone]);
 
   useEffect(() => {
-    if(signUpError){
+    if (signUpError) {
       alert(signUpError);
     }
   }, [signUpError]);
@@ -56,21 +58,20 @@ const Signup = () => {
   }, []);
 
   const onSubmit = useCallback(() => {
-    if(password !== passwordCheck) {
+    if (password !== passwordCheck) {
       return setPasswordError(true);
     }
-    if(!term) {
+    if (!term) {
       return setTermError(true);
     }
-    console.log(email, nickname, password);
     dispatch({
       type: SIGN_UP_REQUEST,
       data: {
         email,
         nickname,
         password,
-      }
-    })
+      },
+    });
   }, [email, password, passwordCheck, term]);
 
   return (
@@ -81,7 +82,7 @@ const Signup = () => {
       <Form onFinish={onSubmit}>
         <div>
           <label htmlFor="user-email">email</label>
-          <br/>
+          <br />
           <Input
             name="user-email"
             type="email"
@@ -92,7 +93,7 @@ const Signup = () => {
         </div>
         <div>
           <label htmlFor="user-nick">닉네임</label>
-          <br/>
+          <br />
           <Input
             name="user-nick"
             value={nickname}
@@ -102,7 +103,7 @@ const Signup = () => {
         </div>
         <div>
           <label htmlFor="user-password">비밀번호</label>
-          <br/>
+          <br />
           <Input
             name="user-password"
             type="password"
@@ -113,7 +114,7 @@ const Signup = () => {
         </div>
         <div>
           <label htmlFor="user-password-check">비밀번호체크</label>
-          <br/>
+          <br />
           <Input
             name="user-password-check"
             type="password"
@@ -140,5 +141,18 @@ const Signup = () => {
     </AppLayout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({req}) => {
+  const cookie = req ? req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  store.dispatch({
+    type: LOAD_MY_INFO_REQUEST,
+  });
+  store.dispatch(END);
+  await store.sagaTask.toPromise();
+});
 
 export default Signup;

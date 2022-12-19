@@ -5,13 +5,13 @@
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    }
-  },
+   }
+ },
   "env": {
     "browser": true,
     "node": true,
     "es6": true
-  },
+ },
   "extends": [
     "airbnb"
   ],
@@ -27,8 +27,19 @@
     "react/forbid-prop-types": "off",
     "react/jsx-filename-extension": "off",
     "react/jsx-one-expression-per-line": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": true
+    }],
     "object-curly-newline": "off",
+    "object-curly-spacing": ["error", "never"],
     "linebreak-style": "off",
-    "no-param-reassign": "off"
-  }
+    "no-param-reassign": "off",
+    "no-undef": "off",
+    "react/function-component-definition": [2, {"namedComponents": "arrow-function"}],
+    "consistent-return": "off",
+    "no-alert": "off",
+    "arrow-body-style": "off"
+ }
 }

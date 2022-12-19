@@ -1,10 +1,9 @@
 const express = require('express');
 const {Op} = require('sequelize');
-const {Post, User, Image, Comment} = require('../models');
-
+const {Post, Comment, User, Image, Hashtag} = require('../models');
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {// GET /posts
+router.get('/:tag', async (req, res, next) => {// GET /hashtag/노드
   try {
     const where = {};
     if(parseInt(req.query.lastId, 10)){// 초기 로딩이 아닐 때
@@ -13,11 +12,11 @@ router.get('/', async (req, res, next) => {// GET /posts
     const posts = await Post.findAll({
       where,
       limit: 10,
-      order: [
-        ['createdAt', 'DESC'],
-        [Comment, 'createdAt', 'DESC']
-      ],
       include: [
+        {
+          model: Hashtag,
+          where: {name: decodeURIComponent(req.params.tag)}
+       },
         {
           model: User,
           attributes: ['id', 'nickname'],
@@ -26,14 +25,8 @@ router.get('/', async (req, res, next) => {// GET /posts
           model: Image,
        },
         {
-          model: Comment,
-          include: [{
-            model: User,
-            attributes: ['id', 'nickname'],
-         }],
-       },
-        {
           model: User, // 좋아요 누른사람
+          through: 'Like',
           as: 'Likers',
           attributes: ['id'],
        },

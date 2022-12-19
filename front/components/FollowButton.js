@@ -1,30 +1,29 @@
 import React, {useCallback} from 'react';
-import { Button } from 'antd';
-import PropTypes from "prop-types";
-import {useDispatch, useSelector} from "react-redux";
-import {FOLLOW_REQUEST, UNFOLLOW_REQUEST} from "../reducers/user";
+import {Button} from 'antd';
+import PropTypes from 'prop-types';
+import {useDispatch, useSelector} from 'react-redux';
+import {FOLLOW_REQUEST, UNFOLLOW_REQUEST} from '../reducers/user';
 
 const FollowButton = ({post}) => {
-
   const dispatch = useDispatch();
-  const { me, followLoading, unfollowLoading } = useSelector((state) => state.user);
+  const {me, followLoading, unfollowLoading} = useSelector((state) => state.user);
   const isFollowing = me?.Followings.find((v) => v.id === post.User.id);
 
   const onClickButton = useCallback(() => {
-    if(isFollowing) {
+    if (isFollowing) {
       dispatch({
         type: UNFOLLOW_REQUEST,
         data: post.User.id,
-      })
-    }else {
+      });
+    } else {
       dispatch({
         type: FOLLOW_REQUEST,
         data: post.User.id,
-      })
+      });
     }
   }, [isFollowing]);
 
-  if(post.User.id === me.id){
+  if (post.User.id === me.id) {
     return null;
   }
 
@@ -35,7 +34,7 @@ const FollowButton = ({post}) => {
   );
 };
 
-FollowButton.propTyles = {
+FollowButton.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.string,
     User: PropTypes.object,
@@ -44,6 +43,6 @@ FollowButton.propTyles = {
     Comments: PropTypes.arrayOf(PropTypes.object),
     Images: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-}
+};
 
 export default FollowButton;

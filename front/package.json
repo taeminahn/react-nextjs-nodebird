@@ -5,14 +5,19 @@
   "main": "index.js",
   "scripts": {
     "dev": "next -p 3060",
-    "build": "next build"
+    "build": "cross-env NODE_ENV=production ANALYZE=true next build",
+    "start": "cross-env NODE_ENV=production next start -p 3060"
   },
   "author": "Ahntaemin",
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@next/bundle-analyzer": "^13.0.6",
     "antd": "^4.24.2",
     "axios": "^1.2.0",
+    "babel-plugin-styled-components": "^2.0.7",
+    "cross-env": "^7.0.3",
+    "moment": "^2.29.4",
     "next": "^13.0.3",
     "next-redux-wrapper": "^8.0.0",
     "prop-types": "^15.8.1",
@@ -22,12 +27,14 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.2.1",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "swr": "^2.0.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
     "@faker-js/faker": "^7.6.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.27.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.31.10",
