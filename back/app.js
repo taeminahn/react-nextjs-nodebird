@@ -37,7 +37,7 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 app.use(cors({
-  origin: ['http://localhost:3060', 'nodebird.com', 'http://3.34.177.67'],
+  origin: ['http://localhost:3060', 'nodebird.com', 'http://43.201.96.208'],
   credentials: true,
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
