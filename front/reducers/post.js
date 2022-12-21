@@ -1,6 +1,3 @@
-import shortId from 'shortid';
-import {faker} from '@faker-js/faker';
-
 export const initialState = {
   mainPosts: [],
   singlePost: null,
@@ -41,24 +38,24 @@ export const initialState = {
   retweetError: null,
 };
 
-export const generateDummyPost = (number) => Array(number).fill().map(() => ({
-  id: shortId.generate(),
-  User: {
-    id: shortId.generate(),
-    nickname: faker.name.findName(),
- },
-  content: faker.lorem.paragraph(),
-  Images: [{
-    src: faker.image.image(),
- }],
-  Comments: [{
-    User: {
-      id: shortId.generate(),
-      nickname: faker.name.findName(),
-   },
-    content: faker.lorem.sentence(),
- }],
-}));
+// export const generateDummyPost = (number) => Array(number).fill().map(() => ({
+//   id: shortId.generate(),
+//   User: {
+//     id: shortId.generate(),
+//     nickname: faker.name.findName(),
+//  },
+//   content: faker.lorem.paragraph(),
+//   Images: [{
+//     src: faker.image.image(),
+//  }],
+//   Comments: [{
+//     User: {
+//       id: shortId.generate(),
+//       nickname: faker.name.findName(),
+//    },
+//     content: faker.lorem.sentence(),
+//  }],
+// }));
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
@@ -105,24 +102,14 @@ export const RETWEET_REQUEST = 'RETWEET_REQUEST';
 export const RETWEET_SUCCESS = 'RETWEET_SUCCESS';
 export const RETWEET_FAILURE = 'RETWEET_FAILURE';
 
-export const addPost = (data) => ({
-  type: ADD_POST_REQUEST,
-  data,
-});
-
-export const addComment = (data) => ({
-  type: ADD_COMMENT_REQUEST,
-  data,
-});
-
-const dummyComment = (data) => ({
-  id: shortId.generate(),
-  content: data,
-  User: {
-    id: 1,
-    nickname: '제로초',
- },
-});
+// const dummyComment = (data) => ({
+//   id: shortId.generate(),
+//   content: data,
+//   User: {
+//     id: 1,
+//     nickname: '제로초',
+//  },
+// });
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -295,7 +282,6 @@ const reducer = (state = initialState, action) => {
      };
    }
     case LOAD_HASHTAG_POSTS_SUCCESS:{
-      console.log(action)
       const mainPosts = state.mainPosts.concat(action.data);
       return {
         ...state,
@@ -390,7 +376,6 @@ const reducer = (state = initialState, action) => {
      };
    }
     case ADD_COMMENT_SUCCESS: {
-      console.log('reducers', action.data);
       const postIndex = state.mainPosts.findIndex((v) => v.id === action.data.PostId);
       const post = {...state.mainPosts[postIndex]};
       post.Comments = [action.data, ...post.Comments];
