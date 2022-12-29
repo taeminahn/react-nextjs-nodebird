@@ -1,9 +1,12 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const {Post, Image, Comment, User, Hashtag} = require('../models');
-const {isLoggedIn} = require('./middlewares');
 const fs = require('fs');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+
+const {isLoggedIn} = require('./middlewares');
+const {Post, Image, Comment, User, Hashtag} = require('../models');
 
 const router = express.Router();
 
@@ -14,16 +17,19 @@ try {
   fs.mkdirSync('uploads');
 }
 
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: 'ap-northeast-2',
+});
+
 const upload = multer({
   storage: multer.diskStorage({
-    destination(rea, file, done) {
-      done(null, 'uploads');
-   },
-    filename(req, file, done) {// 제로초.png
-      const ext = path.extname(file.originalname); // 확장자 추출(.png)
-      const basename = path.basename(file.originalname, ext); // 제로초
-      done(null, basename + '_' + new Date().getTime() + ext); // 제로초15184712891.png
-   },
+    s3: new AWS.S3(),
+    bucket: 'react-incutepig-s3',
+    key(req, file, cb) {
+      cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`)
+    }
  }),
   limits: {fileSize: 20 * 1024 * 1024}, // 20MB
 })
@@ -83,7 +89,7 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {// POST /
 
 router.post('/images', isLoggedIn, upload.array('image'), async (req, res, next) => {// POST /post/images
   console.log(req.files);
-  res.json(req.files.map((v) => v.filename));
+  res.json(req.files.map((v) => v.location));
 });
 
 router.get('/:postId', async (req, res, next) => {// GET /post/${postId}
