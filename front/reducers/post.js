@@ -154,6 +154,8 @@ const reducer = (state = initialState, action) => {
    }
     case UPLOAD_IMAGES_SUCCESS:{
       const imagePaths = state.imagePaths.concat(action.data);
+      console.log('imagePaths',imagePaths);
+      console.log('imagePaths action.data',action.data);
       return {
         ...state,
         uploadImagesLoading: false,

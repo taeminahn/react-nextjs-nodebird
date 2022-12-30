@@ -45,6 +45,7 @@ function* uploadImages(action) {
       data: result.data,
    });
  } catch (err) {
+    console.error(err);
     yield put({
       type: UPLOAD_IMAGES_FAILURE,
       error: err.response.data
