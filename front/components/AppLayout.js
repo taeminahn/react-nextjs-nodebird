@@ -44,7 +44,7 @@ const AppLayout = ({children}) => {
         mode="horizontal"
         selectedKeys={[router.pathname]}
         items={[
-          {label: <Link href="/">노드버드</Link>, key: '/'},
+          {label: <Link href="/">IncutePig</Link>, key: '/'},
           {label: <Link href="/profile">프로필</Link>, key: '/profile'},
           {label: <SearchInput
             enterButton
@@ -64,11 +64,11 @@ const AppLayout = ({children}) => {
         </Col>
         <Col xs={24} md={6}>
           <a
-            href="https://www.zerocho.com"
+            href="http://www.incutepig.com"
             target="_blank"
             rel="noreferrer noopener"
           >
-            Made by ZeroCho
+            Made by InCutePig
           </a>
         </Col>
       </Row>
