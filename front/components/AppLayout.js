@@ -64,7 +64,7 @@ const AppLayout = ({children}) => {
         </Col>
         <Col xs={24} md={6}>
           <a
-            href="http://www.incutepig.com"
+            href="https://www.incutepig.com"
             target="_blank"
             rel="noreferrer noopener"
           >

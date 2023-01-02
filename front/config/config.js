@@ -1,1 +1,1 @@
-export const backUrl = 'http://api.incutepig.site';
+export const backUrl = 'https://api.incutepig.site';
