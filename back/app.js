@@ -57,7 +57,7 @@ app.use(session({
   proxy: true,
   cookie: {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production' ? true : false,
     domain: process.env.NODE_ENV === 'production' && '.incutepig.site'
   }
 }));

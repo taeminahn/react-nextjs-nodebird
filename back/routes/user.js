@@ -100,7 +100,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {// POST /user
       nickname: req.body.nickname,
       password: hashedPassword,
    });
-    res.setHeader('Access-Control-Allow-Origin', 'https://incutepig.site');
+    // res.setHeader('Access-Control-Allow-Origin', 'https://incutepig.site');
     res.status(201).send('ok');
  } catch (error) {
     console.error(error);

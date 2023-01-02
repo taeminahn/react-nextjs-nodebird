@@ -24,6 +24,9 @@ export const initialState = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  editPostLoading: false,
+  editPostDone: false,
+  editPostError: null,
   removePostLoading: false,
   removePostDone: false,
   removePostError: null,
@@ -89,6 +92,10 @@ export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+
+export const EDIT_POST_REQUEST = 'EDIT_POST_REQUEST';
+export const EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS';
+export const EDIT_POST_FAILURE = 'EDIT_POST_FAILURE';
 
 export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
@@ -346,6 +353,31 @@ const reducer = (state = initialState, action) => {
         addPostError: action.error,
      };
    }
+    case EDIT_POST_REQUEST: {
+      return {
+        ...state,
+        editPostLoading: true,
+        editPostDone: false,
+        editPostError: null,
+      };
+    }
+    case EDIT_POST_SUCCESS: {
+      state.mainPosts.filter((v) => v.id === action.data.PostId)[0].content = action.data.content;
+      return {
+        ...state,
+        editPostLoading: false,
+        editPostDone: true,
+        mainPosts: [...state.mainPosts],
+        imagePaths: [],
+      };
+    }
+    case EDIT_POST_FAILURE: {
+      return {
+        ...state,
+        editPostLoading: false,
+        editPostError: action.error,
+      };
+    }
     case REMOVE_POST_REQUEST: {
       return {
         ...state,

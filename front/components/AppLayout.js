@@ -44,7 +44,7 @@ const AppLayout = ({children}) => {
         mode="horizontal"
         selectedKeys={[router.pathname]}
         items={[
-          {label: <Link href="/">IncutePig</Link>, key: '/'},
+          {label: <Link href="/">InCutePig</Link>, key: '/'},
           {label: <Link href="/profile">프로필</Link>, key: '/profile'},
           {label: <SearchInput
             enterButton
