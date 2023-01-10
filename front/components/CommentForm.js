@@ -31,7 +31,12 @@ const CommentForm = ({post}) => {
   return (
     <Form onFinish={onSubmitComment}>
       <Form.Item>
-        <Input.TextArea value={commentText} onChange={onChangeCommentText} row={4} />
+        <Input.TextArea
+          value={commentText}
+          onChange={onChangeCommentText}
+          row={4}
+          placeholder="댓글 입력"
+        />
         <Button type="primary" htmlType="submit" style={{float: 'right'}}>삐약</Button>
       </Form.Item>
     </Form>

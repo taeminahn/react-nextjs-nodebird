@@ -51,6 +51,7 @@ const AppLayout = ({children}) => {
             value={searchInput}
             onChange={onChangeSearchInput}
             onSearch={onSearch}
+            placeholder="해시태그 검색"
           />,
           key: '/search'},
         ]}
